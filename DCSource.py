@@ -58,9 +58,9 @@ class DCSource(visa.GpibInstrument):
         """ Measure output voltage """
         
 #        voltage = self.ask_for_values("MEAS:ARR:VOLT?")
-        self.write("MEAS:ARR:VOLT?")
+        self.write("MEASure:VOLTage?")
         voltage = self.read_values()
-        logging.info("Measure Voltage: %s", voltage)
+        logging.info("MEASure:VOLTage: %s", voltage)
         return voltage
         
 if __name__ == '__main__':

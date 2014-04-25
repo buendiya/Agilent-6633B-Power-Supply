@@ -43,7 +43,15 @@ class DCSource(visa.GpibInstrument):
         
         self.write("OUTPut OFF")
         logging.info("Output Off")
+
         
+    def SetVoltage(self, voltage):
+    
+        """ Measure output voltage """
+        
+        self.write("VOLTage %s" % voltage)
+        logging.info("Set Voltage to %s succeed", voltage)
+    
     def MeasureVoltage(self):
     
         """ Measure output voltage """

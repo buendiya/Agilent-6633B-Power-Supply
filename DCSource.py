@@ -7,7 +7,6 @@ Created on Thu Apr 24 17:14:13 2014
 
 import visa
 import logging
-import time
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -85,7 +84,6 @@ if __name__ == '__main__':
         dc = DCSource("GPIB0::7")
         dc.OutputOn()
 #         dc.SetVoltage(1)
-# #        time.sleep(10)
 #         voltage = dc.MeasureVoltage()
         dc.SetCurrent(1)
         dc.MeasureCurrent()     

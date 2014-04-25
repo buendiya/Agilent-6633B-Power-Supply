@@ -17,12 +17,15 @@ class DCSource(visa.GpibInstrument):
         Agilent 6633B System DC power supply 
         
    """
-
-    err = 1e-6
-        
+   
     def __init__(self, gpib_identifier, **keyw):
-
         super(DCSource, self).__init__(gpib_identifier, **keyw)
+        self.Reset()
+        self.clear()
+        
+    def Reset(self):
+    
+        """ Reset """
         
         self.write("*RST")
         logging.info("Reset succeed")
@@ -36,14 +39,26 @@ class DCSource(visa.GpibInstrument):
         
     def OutputOff(self):
     
-        """ Enable the output """
+        """ Disable the output """
         
         self.write("OUTPut OFF")
         logging.info("Output Off")
         
-
+    def MeasureVoltage(self):
+    
+        """ Measure output voltage """
+        
+        voltage = self.ask_for_values("MEAS:ARR:VOLT?")
+        logging.info("Measure Voltage: %s", voltage)
+        return voltage
+        
 if __name__ == '__main__':
-    dc = DCSource("GPIB0::7")
-    dc.OutputOn()
-
+    try:
+        dc = DCSource("GPIB0::7")
+        dc.OutputOn()
+        voltage = dc.MeasureVoltage()
+            
+        
+    except Exception, e:
+        logging.error(e)
 

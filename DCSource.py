@@ -57,21 +57,38 @@ class DCSource(visa.GpibInstrument):
     
         """ Measure output voltage """
         
-#        voltage = self.ask_for_values("MEAS:ARR:VOLT?")
-        self.write("MEASure:VOLTage?")
-        voltage = self.read_values()
+        voltage = self.ask_for_values("MEASure:VOLTage?")
+#         self.write("MEASure:VOLTage?")
+#         voltage = self.read_values()
         logging.info("MEASure:VOLTage: %s", voltage)
         return voltage
+       
+    def SetCurrent(self, current):
+    
+        """ Measure output current """
         
+        self.write("CURRent %s" % current)
+        logging.info("Set current to %s succeed", current)
+
+    def MeasureCurrent(self):
+    
+        """ Measure output current """
+        
+        current = self.ask_for_values("MEASure:CURRent?")
+#         self.write("MEASure:CURRent?")
+#         current = self.read_values()
+        logging.info("MEASure:current: %s", current)
+        return current
+
 if __name__ == '__main__':
     try:
         dc = DCSource("GPIB0::7")
         dc.OutputOn()
-        dc.SetVoltage(1)
-#        time.sleep(10)
-        voltage = dc.MeasureVoltage()
-        
-            
+#         dc.SetVoltage(1)
+# #        time.sleep(10)
+#         voltage = dc.MeasureVoltage()
+        dc.SetCurrent(1)
+        dc.MeasureCurrent()     
         
     except Exception, e:
         logging.error(e)

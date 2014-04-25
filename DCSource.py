@@ -7,6 +7,7 @@ Created on Thu Apr 24 17:14:13 2014
 
 import visa
 import logging
+import time
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -44,19 +45,21 @@ class DCSource(visa.GpibInstrument):
         self.write("OUTPut OFF")
         logging.info("Output Off")
 
-        
+
     def SetVoltage(self, voltage):
     
         """ Measure output voltage """
         
         self.write("VOLTage %s" % voltage)
         logging.info("Set Voltage to %s succeed", voltage)
-    
+
     def MeasureVoltage(self):
     
         """ Measure output voltage """
         
-        voltage = self.ask_for_values("MEAS:ARR:VOLT?")
+#        voltage = self.ask_for_values("MEAS:ARR:VOLT?")
+        self.write("MEAS:ARR:VOLT?")
+        voltage = self.read_values()
         logging.info("Measure Voltage: %s", voltage)
         return voltage
         
@@ -64,7 +67,10 @@ if __name__ == '__main__':
     try:
         dc = DCSource("GPIB0::7")
         dc.OutputOn()
+        dc.SetVoltage(1)
+#        time.sleep(10)
         voltage = dc.MeasureVoltage()
+        
             
         
     except Exception, e:

@@ -45,6 +45,8 @@ class DataAcquisition(visa.GpibInstrument):
 if __name__ == '__main__':
     try:
         dc = DataAcquisition("GPIB0::2")
+        dc.QueryConfigure()
+        dc.QueryConfigure(101)
 
         
     except Exception, e:
